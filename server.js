@@ -1,9 +1,22 @@
 const express = require("express");
 const mongoose = require("mongoose");
+const Product = require("./models/productModel");
 const app = express();
+
+app.use(express.json()); //for middleware
 
 app.get("/", (req, res) => {
   res.send(`Hello Node API`);
+});
+
+app.post("/product", async (req, res) => {
+  try {
+    const product = await Product.create(req.body);
+    res.status(200).json(product);
+  } catch (error) {
+    console.log(error.message);
+    res.status(500).jdon({ message: error.message });
+  }
 });
 
 /* app.get("/user", (req, res) => {
